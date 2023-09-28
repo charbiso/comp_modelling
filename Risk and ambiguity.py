@@ -1,7 +1,6 @@
 '''Tutorial adapted from https://github.com/psychNerdJae/cog-comp-modeling
 for python (original tutorial written for R'''
 from functions import *
-import math
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -17,8 +16,8 @@ import seaborn as sns
 
 # Exercise 1: Calculate e^x, where x=[-5,5] and plot.
 
-range1 = [*range(-5, 6, 1)]
-results = [math.exp(x) for x in range1]
+range1 = range(-5, 6, 1)
+results = [np.exp(x) for x in range1]
 plt.plot(results)
 plt.show()
 
@@ -28,7 +27,7 @@ given that EVopt1 = 4 and EVopt2 = 3'''
 
 EVopt1 = 4
 EVopt2 = 3
-prob_opt1 = math.exp(EVopt1) / (math.exp(EVopt1) + math.exp(EVopt2))
+prob_opt1 = np.exp(EVopt1) / (np.exp(EVopt1) + np.exp(EVopt2))
 
 ''' b) Write a custom function implementing the softmax function. It should output
 a single probability of choosing the given option.  As input, you should specify a 
@@ -67,8 +66,8 @@ result2 = softmax_func(EVvec, indchoice)
 '''Try plotting the probability of choosing opt1 over opt2, as the EVs of opt1 and opt2 change
 as a heatmap, where the range of EVs for each option ranges from x E [-2,2]'''
 
-opt1 = [*range(-2, 3)]
-opt2 = [*range(-2, 3)]
+opt1 = range(-2, 3)
+opt2 = range(-2, 3)
 
 prob_results = []
 for x in opt1:
@@ -91,8 +90,8 @@ into a range where the softmax is better behaved.
 One common method is using a "temperature" parameter. For t e (0, inf], 
 p(choose x1) = e^(x1/t) / sum(k to j=1)(e^x2/t)'''
 
-opt1 = [*range(-2, 3)]
-opt2 = [*range(-2, 3)]
+opt1 = range(-2, 3)
+opt2 = range(-2, 3)
 temp = 2
 
 prob_results = []
