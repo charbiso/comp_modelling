@@ -1,15 +1,16 @@
+import numpy as np
 def softmax_func(EVvec, indchoice):
     prob_opt = EVvec[indchoice] / np.sum(EVvec)
     return prob_opt
 
 #softmax for use without index
 def softmax(opt1, opt2):
-    return math.exp(opt1) / (math.exp(opt1) + math.exp(opt2))
+    return np.exp(opt1) / (np.exp(opt1) + np.exp(opt2))
 
 #softmax including temperature parameter
 def softmaxw_temp(opt1, opt2, temp):
     if temp > 0:
-        return math.exp(opt1 / temp) / (math.exp(opt1 / temp) + math.exp(opt2 / temp))
+        return np.exp(opt1 / temp) / (np.exp(opt1 / temp) + np.exp(opt2 / temp))
 
 def compute_utility_risk_amb(alpha, beta, v, p, A):
     if A > 0 and p != 0.5:
