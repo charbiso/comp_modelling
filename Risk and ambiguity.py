@@ -122,6 +122,51 @@ a parameter than captures aversion to uncertainty. Dividing by 2 makes uncertain
 
 utility = compute_utility_risk_amb(alpha = 1, beta = -1, v = 25, p = .5, A = 0)
 
+'''Simulate how alpha affects utility during risky gambles. Use the following parameter space:
+- Gamble = £100
+- Risk levels .25, .5, and .75
+- Ambiguity levels = 0
+- alpha E [-.5, 1.2] in steps of .01
+- beta can be fixed at arbitrary value'''
+
+new_alpha = np.arange(-.5,1.21, .01)
+win_probability = [.25, .5, .75]
+
+
+risky_gamble_utility = []
+for x in new_alpha:
+    for y in win_probability:
+        gamble_utility = compute_utility_risk_amb(alpha=x, beta=.5, v = 100, p=y, A = 0)
+        risky_gamble_utility.append({'new_alpha': x, 'win_probability': y, 'gamble_utility': gamble_utility})
+
+utility_df = pd.DataFrame(risky_gamble_utility)
+
+utility_df['new_alpha'] = utility_df['new_alpha'].round(2)
+
+heatmap_data = utility_df.pivot_table(index='win_probability', columns='new_alpha', values='gamble_utility', aggfunc='mean')
+# fix axes
+x_ticks = np.arange(0, len(heatmap_data.columns), 10)
+x_labels = heatmap_data.columns[::10]
+y_ticks = np.arange(0, len(heatmap_data.index), 1)
+y_labels = heatmap_data.index
+
+# make heatmap in matplotlib
+# (Seaborn was unable to make this heatmap)
+plt.imshow(heatmap_data, cmap='viridis', aspect='auto', extent=[0, len(new_alpha), 0, len(win_probability)])
+plt.colorbar(label='Gamble Utility')
+
+plt.xticks(x_ticks, x_labels)
+plt.yticks(y_ticks, y_labels)
+
+plt.xlabel('Alpha')
+plt.ylabel('Gamble win probability')
+plt.title('Heatmap of Utility under Risk')
+plt.show()
+
+print('hello')
+
+
+
 
 
 

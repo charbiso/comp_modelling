@@ -17,8 +17,8 @@ def compute_utility_risk_amb(alpha, beta, v, p, A):
         p = 0.5
         print("Warning: Non-zero ambiguity level specified. Risk level changed to 50%")
     if p > 1:
-        return "Error: incorrect probability value"
+        raise ValueError('Incorrect probability value')
     if A > 1:
-        return "Error: incorrect uncertainty value"
+        raise ValueError('Incorrect uncertainty value')
     else:
         return (v ** alpha) * (p + ((beta * A) / 2))
