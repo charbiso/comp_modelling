@@ -163,9 +163,45 @@ plt.ylabel('Gamble win probability')
 plt.title('Heatmap of Utility under Risk')
 plt.show()
 
-print('hello')
+
+'''Now, simulate how beta affects utility during ambiguous gambles using the following parameter space:
+- Gamble = £100
+- Risk = .5
+- Ambiguity = .25, .5, .75
+- alpha E [.5, 1] in steps of .01
+- beta E [-2, 2] in steps of .01'''
+
+ambiguity = [.25,.5,.75]
+alpha2 = np.arange(.5, 1.01, .01)
+beta2 = np.arange(-2, 2.01, .01)
 
 
+
+
+fig, axes = plt.subplots(nrows = 1, ncols = len(ambiguity), figsize=(15,5))
+
+for i, A_value in enumerate(ambiguity):
+    plot1 = []
+    for x in alpha2:
+        for y in beta2:
+            gamble_utility = compute_utility_risk_amb(alpha=x, beta=y, v=100, p=.5, A=A_value)
+            plot1.append({'alpha2': x, 'beta2': y, 'gamble_utility': gamble_utility, 'ambiguity': A_value})
+
+
+    Amb_df = pd.DataFrame(plot1)
+    Amb_df['alpha2'] = Amb_df['alpha2'].round(2)
+    Amb_df['beta2'] = Amb_df['beta2'].round(2)
+    heatmap_data = Amb_df.pivot_table(index='alpha2', columns='beta2', values='gamble_utility', aggfunc='mean')
+
+    im = axes[i].imshow(heatmap_data, cmap='viridis', aspect='auto', extent=[0, len(alpha2), 0, len(beta2)])
+    axes[i].set_title(f'A = {A_value}')
+    # axes[i].set_xticks(np.arange(0, len(heatmap_data.columns),10))
+    # axes[i].set_xticklabels(heatmap_data.columns[::10])
+axes[0].set_xlabel('Alpha')
+axes[0].set_ylabel('Beta')
+cbar = fig.colorbar(im, ax=axes, orientation='vertical', fraction=.02, pad=.1, label = 'Utility')
+plt.suptitle('Heatmap of Utility under Risk for Different Ambiguity Levels')
+plt.show()
 
 
 
